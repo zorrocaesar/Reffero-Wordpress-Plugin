@@ -40,15 +40,6 @@ function reffero_meta_callback( $post ) {
         </p>
     </p>
     <p>
-        <input type="checkbox" name="reffero-one-time-only" id="reffero-one-time-only"  value="1" <?php if ( isset ( $prfx_stored_meta['reffero-one-time-only'] ) && $prfx_stored_meta['reffero-one-time-only'][0]) echo "checked=\"checked\""; ?> />
-        <label for="reffero-one-time-only" class="prfx-row-title">
-            <?php _e( 'One-time-only access', 'reffero-textdomain' )?>
-        </label>
-        <p class="howto">
-            <span class="dashicons dashicons-info"></span>One-time-only access means that your visitors will only be able to access this post once after they post on a Social Network via Reffero. If they want to access the page again, they would have to post again.
-        </p>
-    </p>
-    <p>
         <label for="page-reffero" class="prfx-row-title">
             <?php _e( 'Reffero campaign URL:', 'reffero-textdomain' )?>
         </label>
@@ -58,6 +49,15 @@ function reffero_meta_callback( $post ) {
 
         <br />
         <a class="button" href="<?php echo REFFERO__NEW_CAMPAIGN_URL ?>" target="wp-preview-1">Create a new campaign on Reffero</a>
+    </p>
+    <p>
+        <input type="checkbox" name="reffero-one-time-only" id="reffero-one-time-only"  value="1" <?php if ( isset ( $prfx_stored_meta['reffero-one-time-only'] ) && $prfx_stored_meta['reffero-one-time-only'][0]) echo "checked=\"checked\""; ?> />
+        <label for="reffero-one-time-only" class="prfx-row-title">
+            <?php _e( 'One-time-only access', 'reffero-textdomain' )?>
+        </label>
+        <p class="howto">
+            <span class="dashicons dashicons-info"></span>One-time-only access means that your visitors will only be able to access this post once after they post on a Social Network via Reffero. If they want to access the page again, they would have to post again.
+        </p>
     </p>
 <?php
 }
@@ -97,7 +97,7 @@ function reffero_meta_save( $post_id ) {
 
 function reffero_template_redirect()
 {
-    if (get_post_meta( get_the_ID(), 'use-reffero', true )) {
+    if (get_post_meta( get_the_ID(), 'use-reffero', true ) && !is_home()) {
         if (isset($_GET['campaignId']) && isset ($_GET['paymentId'])) {
             if (get_post_meta(get_the_ID(), 'reffero-one-time-only', true)) {
                 $enpointUrl = REFFERO__API_ENDPOINT
